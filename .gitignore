@@ -1,0 +1,8 @@
+node_modules
+.next
+
+.env
+.env.local
+audio-out
+*.tsbuildinfo
+next-env.d.ts

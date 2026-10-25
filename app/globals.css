@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sun: #ffd23f;
+  --color-ink: #1e1b3a;
+  --color-paper: #fffbf0;
+  --color-coral: #ff6b57;
+  --color-mint: #3ddc97;
+  --color-mint-soft: #c9f5e1;
+  --color-sky: #5bc0eb;
+  --color-orange: #ff9f1c;
+  --color-sand: #ece5cf;
+  --color-stone: #9c9378;
+  --color-muted: #3c3757;
+  --color-muted-2: #5e5873;
+  --color-cream: #ffe7a1;
+
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+
+  --animate-bob: bob 1.6s ease-in-out infinite;
+  --animate-pop: pop 0.35s cubic-bezier(0.3, 1.4, 0.5, 1);
+  --animate-shake: shake 0.35s;
+  --animate-spin-slow: spin 16s linear infinite;
+  --animate-ring: ring 1.4s ease-out infinite;
+  --animate-bar: bar 0.9s ease-in-out infinite;
+  --animate-fall: fall 2.8s linear infinite;
+  --animate-stamp: stamp 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes pop {
+    0% { transform: scale(0.94) translateY(8px); opacity: 0; }
+    100% { transform: none; opacity: 1; }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  @keyframes ring {
+    0% { transform: scale(0.85); opacity: 0.9; }
+    100% { transform: scale(1.35); opacity: 0; }
+  }
+  @keyframes bar {
+    0%, 100% { height: 10px; }
+    50% { height: 38px; }
+  }
+  @keyframes fall {
+    0% { transform: translateY(-30px) rotate(0); }
+    100% { transform: translateY(900px) rotate(600deg); }
+  }
+  @keyframes stamp {
+    0% { transform: rotate(-8deg) scale(1.6); opacity: 0; }
+    100% { transform: rotate(-8deg) scale(1); opacity: 1; }
+  }
+}
+
+/* Chunky press-down buttons */
+@utility press {
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  &:active:not(:disabled) {
+    transform: translateY(3px);
+  }
+}
+
+@utility shadow-chunky {
+  box-shadow: 0 5px 0 var(--color-ink);
+}
+@utility shadow-chunky-sm {
+  box-shadow: 0 3px 0 var(--color-ink);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background: var(--color-sun);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply press flex h-14 w-full items-center justify-center gap-2 rounded-2xl border-3 border-ink px-5 font-display text-lg font-extrabold text-ink no-underline shadow-chunky;
+  }
+  .btn-coral { @apply bg-coral; }
+  .btn-mint { @apply bg-mint; }
+  .btn-sky { @apply bg-sky; }
+  .btn-paper { @apply bg-paper; }
+  .btn-ink {
+    @apply bg-ink text-sun;
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.45);
+  }
+  .btn:disabled {
+    @apply border-stone bg-sand text-muted-2;
+    box-shadow: 0 5px 0 var(--color-stone);
+    transform: none;
+  }
+
+  .card {
+    @apply rounded-[20px] border-3 border-ink bg-paper shadow-chunky;
+  }
+  .eyebrow {
+    @apply self-start rounded-full bg-ink px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-sun;
+  }
+  .pill {
+    @apply flex h-10 items-center gap-1.5 rounded-full border-3 border-ink bg-paper px-3 text-[15px] font-bold shadow-chunky-sm;
+  }
+
+  /* Answer options and tiles */
+  .opt {
+    @apply press flex min-h-[60px] w-full items-center gap-3.5 rounded-2xl border-3 border-ink bg-paper px-4 py-3 text-left text-[17px] font-semibold text-ink;
+    box-shadow: 0 4px 0 var(--color-ink);
+  }
+  .opt-key {
+    @apply flex h-[30px] w-[30px] flex-none items-center justify-center rounded-[9px] border-2 border-ink bg-paper text-sm font-bold;
+  }
+  .opt.is-selected { @apply -translate-y-0.5 bg-sky; }
+  .opt.is-right { @apply bg-mint; }
+  .opt.is-wrong { @apply animate-shake bg-coral; }
+  .opt:disabled { cursor: default; }
+
+  .tile {
+    @apply press min-h-[52px] rounded-[14px] border-3 border-ink bg-paper px-3.5 py-1.5 text-[17px] font-bold text-ink;
+    box-shadow: 0 4px 0 var(--color-ink);
+  }
+  .tile.is-selected { @apply -translate-y-[3px] bg-sky; }
+  .tile.is-matched { @apply border-dashed bg-mint-soft; box-shadow: none; cursor: default; }
+  .tile.is-wrong { @apply animate-shake bg-coral; }
+  .tile.is-used { visibility: hidden; }
+
+  .speak-btn {
+    @apply press flex h-11 w-11 flex-none items-center justify-center rounded-xl border-3 border-ink bg-sky p-0 text-ink shadow-chunky-sm;
+  }
+}
